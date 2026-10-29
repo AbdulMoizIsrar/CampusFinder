@@ -1,0 +1,12 @@
+import { Router } from 'express';
+import * as admin from '../controllers/adminController.js';
+import * as claims from '../controllers/claimController.js';
+import { requireAuth, requireRoles } from '../middleware/auth.js';
+import { mongoId, validated } from '../middleware/validate.js';
+import { body, query } from 'express-validator';
+const router = Router();
+router.use(requireAuth, requireRoles('moderator', 'admin'));
+router.get('/claims', query('status').optional().isIn(['pending', 'approved', 'rejected']), validated, claims.queue);
+router.get('/users', requireRoles('admin'), admin.users);
+router.patch('/users/:id/role', requireRoles('admin'), mongoId(), body('role').isIn(['user', 'moderator', 'admin']), validated, admin.role);
+export default router;

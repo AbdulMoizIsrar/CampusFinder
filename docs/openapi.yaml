@@ -1,0 +1,478 @@
+openapi: 3.0.3
+info:
+  title: CampusFinder API
+  version: 1.0.0
+  description: |
+    COMSATS University Islamabad CSC337 Lab 01–06 campus lost-and-found API.
+    Authenticate with Bearer JWT. Refresh/logout use an HttpOnly cookie and
+    an X-CSRF-Token header obtained from GET /api/v1/auth/csrf.
+servers:
+  - url: http://localhost:3000
+security:
+  - bearerAuth: []
+tags:
+  - name: Auth
+  - name: Items
+  - name: Claims
+  - name: Notifications
+  - name: Administration
+  - name: System
+paths:
+  /api/v1/health:
+    get:
+      tags: [System]
+      security: []
+      summary: API status
+      responses:
+        '200': { description: OK }
+  /api/v1/meta:
+    get:
+      tags: [System]
+      security: []
+      summary: Public categories and status choices
+      responses:
+        '200': { description: OK }
+  /api/v1/auth/csrf:
+    get:
+      tags: [Auth]
+      security: []
+      summary: Generate a signed CSRF token and cookie
+      responses:
+        '200':
+          description: CSRF token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  csrfToken: { type: string }
+  /api/v1/auth/register:
+    post:
+      tags: [Auth]
+      security: []
+      summary: Register a campus user and start a session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name: { type: string, minLength: 2, maxLength: 80 }
+                email: { type: string, format: email }
+                password: { type: string, minLength: 8, format: password, description: Must have upper and lower case letters and digits }
+      responses:
+        '201':
+          description: Created; also sets HttpOnly campus_refresh cookie
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Session' }
+        '409': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
+  /api/v1/auth/login:
+    post:
+      tags: [Auth]
+      security: []
+      summary: Sign in; receive short-lived access JWT and refresh cookie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string, format: password }
+      responses:
+        '200':
+          description: Signed in
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Session' }
+        '401': { $ref: '#/components/responses/Error' }
+        '429': { $ref: '#/components/responses/Error' }
+  /api/v1/auth/refresh:
+    post:
+      tags: [Auth]
+      security: []
+      summary: Rotate current refresh token (CSRF-protected)
+      parameters:
+        - $ref: '#/components/parameters/CsrfToken'
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '200':
+          description: Token rotated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Session' }
+        '401': { $ref: '#/components/responses/Error' }
+        '403': { $ref: '#/components/responses/Error' }
+  /api/v1/auth/logout:
+    post:
+      tags: [Auth]
+      summary: Revoke refresh token, clear cookie
+      parameters:
+        - $ref: '#/components/parameters/CsrfToken'
+      responses:
+        '200': { description: Signed out }
+        '403': { $ref: '#/components/responses/Error' }
+  /api/v1/auth/me:
+    get:
+      tags: [Auth]
+      summary: Current account
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user: { $ref: '#/components/schemas/User' }
+        '401': { $ref: '#/components/responses/Error' }
+  /api/v1/items:
+    get:
+      tags: [Items]
+      summary: Search and paginate item reports
+      parameters:
+        - { name: page, in: query, schema: { type: integer, default: 1, minimum: 1 } }
+        - { name: limit, in: query, schema: { type: integer, default: 10, minimum: 1, maximum: 50 } }
+        - { name: type, in: query, schema: { $ref: '#/components/schemas/ItemType' } }
+        - { name: category, in: query, schema: { $ref: '#/components/schemas/Category' } }
+        - { name: status, in: query, schema: { $ref: '#/components/schemas/ItemStatus' } }
+        - { name: location, in: query, schema: { type: string } }
+        - { name: q, in: query, schema: { type: string }, description: Literal keyword lookup over title, description and location }
+        - { name: from, in: query, schema: { type: string, format: date } }
+        - { name: to, in: query, schema: { type: string, format: date } }
+        - { name: fields, in: query, schema: { type: string }, example: 'title,category,status' }
+        - { name: sort, in: query, schema: { type: string, enum: [newest, oldest, date_asc, date_desc, title_asc, title_desc] } }
+      responses:
+        '200':
+          description: Paginated result
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ItemList' }
+        '422': { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Items]
+      summary: Create a lost or found report; match and notify relevant reporters
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ItemInput' }
+      responses:
+        '201':
+          description: Created; includes Location header
+          headers:
+            Location: { schema: { type: string } }
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  item: { $ref: '#/components/schemas/Item' }
+        '422': { $ref: '#/components/responses/Error' }
+  /api/v1/items/mine:
+    get:
+      tags: [Items]
+      summary: Paginated reports created by signed-in account
+      responses:
+        '200':
+          description: Item list
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ItemList' }
+  /api/v1/items/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ItemId'
+    get:
+      tags: [Items]
+      summary: Retrieve report details
+      responses:
+        '200':
+          description: Report
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  item: { $ref: '#/components/schemas/Item' }
+        '404': { $ref: '#/components/responses/Error' }
+    patch:
+      tags: [Items]
+      summary: Edit your report or transition claimed item to returned
+      description: Only owner or staff. Details may be edited before claim approval. To mark returned, supply only {"status":"returned"} when current status is claimed.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - { $ref: '#/components/schemas/ItemInput' }
+                - type: object
+                  required: [status]
+                  properties:
+                    status: { type: string, enum: [returned] }
+      responses:
+        '200':
+          description: Item changed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  item: { $ref: '#/components/schemas/Item' }
+        '403': { $ref: '#/components/responses/Error' }
+        '409': { $ref: '#/components/responses/Error' }
+    delete:
+      tags: [Items]
+      summary: Delete your report and associated claims (staff can moderate)
+      responses:
+        '204': { description: Deleted }
+        '403': { $ref: '#/components/responses/Error' }
+  /api/v1/items/{id}/matches:
+    get:
+      tags: [Items]
+      summary: Retrieve suggested opposite-type reports, sorted by score
+      parameters:
+        - $ref: '#/components/parameters/ItemId'
+      responses:
+        '200': { description: Owner/moderator matches with matchScore }
+        '403': { $ref: '#/components/responses/Error' }
+  /api/v1/items/{id}/claims:
+    parameters:
+      - $ref: '#/components/parameters/ItemId'
+    post:
+      tags: [Claims]
+      summary: Claim someone else's open item with proof
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [proofText]
+              properties:
+                proofText: { type: string, minLength: 15, maxLength: 1500 }
+      responses:
+        '201':
+          description: Pending claim created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  claim: { $ref: '#/components/schemas/Claim' }
+        '409': { $ref: '#/components/responses/Error' }
+    get:
+      tags: [Claims]
+      summary: List private claims (only owner/staff)
+      responses:
+        '200': { description: Claims and their proof text }
+        '403': { $ref: '#/components/responses/Error' }
+  /api/v1/claims/mine:
+    get:
+      tags: [Claims]
+      summary: List claims created by authenticated user
+      responses:
+        '200': { description: Personal claims with item title/status }
+  /api/v1/claims/{id}:
+    patch:
+      tags: [Claims]
+      summary: Owner or moderator decides pending claim
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status: { type: string, enum: [approved, rejected] }
+      responses:
+        '200':
+          description: Claim decided
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  claim: { $ref: '#/components/schemas/Claim' }
+        '403': { $ref: '#/components/responses/Error' }
+        '409': { $ref: '#/components/responses/Error' }
+  /api/v1/notifications:
+    get:
+      tags: [Notifications]
+      summary: Read up to 100 own notifications and unread count
+      parameters:
+        - { name: unread, in: query, schema: { type: boolean, default: false } }
+      responses:
+        '200':
+          description: Notification list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items: { type: array, items: { $ref: '#/components/schemas/Notification' } }
+                  unreadCount: { type: integer }
+  /api/v1/notifications/{id}/read:
+    patch:
+      tags: [Notifications]
+      summary: Mark your notification as read
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200': { description: Notification updated }
+        '404': { $ref: '#/components/responses/Error' }
+  /api/v1/admin/claims:
+    get:
+      tags: [Administration]
+      summary: Pending claim queue for moderator/admin
+      parameters:
+        - { name: status, in: query, schema: { type: string, enum: [pending, approved, rejected] } }
+      responses:
+        '200': { description: Queue of claims with proof text }
+        '403': { $ref: '#/components/responses/Error' }
+  /api/v1/admin/users:
+    get:
+      tags: [Administration]
+      summary: List users (admin only)
+      responses:
+        '200': { description: User list }
+        '403': { $ref: '#/components/responses/Error' }
+  /api/v1/admin/users/{id}/role:
+    patch:
+      tags: [Administration]
+      summary: Assign user/moderator/admin role (admin only)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role: { type: string, enum: [user, moderator, admin] }
+              required: [role]
+      responses:
+        '200': { description: Role changed }
+        '409': { $ref: '#/components/responses/Error' }
+  /graphql:
+    post:
+      tags: [Administration]
+      summary: Moderator/admin read-only dashboard queries via Apollo Server 5
+      description: Supports itemStats, claimsPerDay(days), recentClaims(limit). POST with Bearer token and {"query":"..."}.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [query]
+              properties:
+                query: { type: string }
+      responses:
+        '200': { description: GraphQL data object or errors }
+        '403': { $ref: '#/components/responses/Error' }
+components:
+  securitySchemes:
+    bearerAuth: { type: http, scheme: bearer, bearerFormat: JWT }
+  parameters:
+    ItemId: { name: id, in: path, required: true, schema: { type: string, pattern: '^[a-fA-F0-9]{24}$' } }
+    CsrfToken: { name: X-CSRF-Token, in: header, required: true, description: Token from GET /api/v1/auth/csrf, schema: { type: string } }
+  responses:
+    Error:
+      description: Unified API error
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code: { type: string }
+            message: { type: string }
+            details: { type: array, items: { type: object } }
+    User:
+      type: object
+      properties:
+        _id: { type: string }
+        name: { type: string }
+        email: { type: string }
+        role: { type: string, enum: [user, moderator, admin] }
+        createdAt: { type: string, format: date-time }
+    Session:
+      type: object
+      properties:
+        user: { $ref: '#/components/schemas/User' }
+        accessToken: { type: string }
+    Category:
+      type: string
+      enum: [Electronics, Documents, Keys, Bags, Clothing, Accessories, Other]
+    ItemType:
+      type: string
+      enum: [lost, found]
+    ItemStatus:
+      type: string
+      enum: [open, claim_pending, claimed, returned]
+    ItemInput:
+      type: object
+      required: [title, description, category, location, date, type]
+      properties:
+        title: { type: string, minLength: 3, maxLength: 100 }
+        description: { type: string, minLength: 10, maxLength: 2000 }
+        category: { $ref: '#/components/schemas/Category' }
+        location: { type: string, minLength: 2, maxLength: 120 }
+        date: { type: string, format: date-time }
+        type: { $ref: '#/components/schemas/ItemType' }
+    Item:
+      allOf:
+        - { $ref: '#/components/schemas/ItemInput' }
+        - type: object
+          properties:
+            _id: { type: string }
+            status: { $ref: '#/components/schemas/ItemStatus' }
+            reporter: { $ref: '#/components/schemas/User' }
+            createdAt: { type: string, format: date-time }
+            updatedAt: { type: string, format: date-time }
+    ItemList:
+      type: object
+      properties:
+        items: { type: array, items: { $ref: '#/components/schemas/Item' } }
+        page: { type: integer }
+        limit: { type: integer }
+        total: { type: integer }
+        pages: { type: integer }
+    Claim:
+      type: object
+      properties:
+        _id: { type: string }
+        item: { type: string }
+        claimant: { $ref: '#/components/schemas/User' }
+        proofText: { type: string }
+        status: { type: string, enum: [pending, approved, rejected] }
+        decidedBy: { type: string, nullable: true }
+        decidedAt: { type: string, format: date-time, nullable: true }
+    Notification:
+      type: object
+      properties:
+        _id: { type: string }
+        type: { type: string }
+        user: { type: string }
+        message: { type: string }
+        itemId: { type: string, nullable: true }
+        read: { type: boolean }
+        createdAt: { type: string, format: date-time }

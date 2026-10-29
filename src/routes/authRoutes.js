@@ -1,0 +1,14 @@
+import { Router } from 'express';
+import * as ctrl from '../controllers/authController.js';
+import { requireAuth } from '../middleware/auth.js';
+import { registrationRules, loginRules, verificationEmailRules, validated } from '../middleware/validate.js';
+import { issueCsrf, requireCsrf, maybeLimit, loginLimiter } from '../middleware/security.js';
+const router = Router();
+router.get('/csrf', issueCsrf);
+router.post('/send-code', maybeLimit(loginLimiter), verificationEmailRules, validated, ctrl.sendCode);
+router.post('/register', maybeLimit(loginLimiter), registrationRules, validated, ctrl.register);
+router.post('/login', maybeLimit(loginLimiter), loginRules, validated, ctrl.login);
+router.post('/refresh', requireCsrf, ctrl.refresh);
+router.post('/logout', requireAuth, requireCsrf, ctrl.logout);
+router.get('/me', requireAuth, ctrl.me);
+export default router;

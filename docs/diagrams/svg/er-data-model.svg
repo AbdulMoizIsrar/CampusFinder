@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="700" viewBox="0 0 1120 700">
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#178e84"/></marker></defs>
+<rect x="0" y="0" width="1120" height="700" fill="#f7faf9"/>
+<text x="40" y="41" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#123e43">ER Data Model</text>
+<path d="M285.0 252.5 L420.0 119.0" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="352.5" y="177.8" text-anchor="middle" font-size="10" font-family="Arial" fill="#477d70">1:N reporter</text>
+<path d="M285.0 252.5 L420.0 306.0" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="352.5" y="271.2" text-anchor="middle" font-size="10" font-family="Arial" fill="#477d70">1:N claimant</text>
+<path d="M560.0 170.0 L560.0 252.0" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="560.0" y="203.0" text-anchor="middle" font-size="10" font-family="Arial" fill="#477d70">1:N item</text>
+<path d="M285.0 252.5 L420.0 500.0" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="352.5" y="368.2" text-anchor="middle" font-size="10" font-family="Arial" fill="#477d70">1:N user</text>
+<path d="M560.0 170.0 L560.0 446.0" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="560.0" y="300.0" text-anchor="middle" font-size="10" font-family="Arial" fill="#477d70">1:N itemId</text>
+<path d="M285.0 252.5 L785.0 242.5" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="535.0" y="239.5" text-anchor="middle" font-size="10" font-family="Arial" fill="#477d70">1:N user</text>
+<rect x="65" y="200" width="220" height="105" rx="11" fill="#deecfc" stroke="#b7d5cf" stroke-width="2"/>
+<text x="175.0" y="242.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">User</text>
+<text x="175.0" y="261.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">_id, name, email, role</text>
+<rect x="420" y="68" width="280" height="102" rx="11" fill="#e4f4ea" stroke="#b7d5cf" stroke-width="2"/>
+<text x="560.0" y="109.0" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Item</text>
+<text x="560.0" y="128.0" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">_id, reporter, type, status, category</text>
+<rect x="420" y="252" width="280" height="108" rx="11" fill="#e4f4ea" stroke="#b7d5cf" stroke-width="2"/>
+<text x="560.0" y="296.0" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Claim</text>
+<text x="560.0" y="315.0" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">_id, item, claimant, proofText, decidedBy</text>
+<rect x="420" y="446" width="280" height="108" rx="11" fill="#e4f4ea" stroke="#b7d5cf" stroke-width="2"/>
+<text x="560.0" y="490.0" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Notification</text>
+<text x="560.0" y="509.0" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">_id, user, itemId, type, read</text>
+<rect x="785" y="190" width="255" height="105" rx="11" fill="#fff0df" stroke="#b7d5cf" stroke-width="2"/>
+<text x="912.5" y="232.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">RefreshToken</text>
+<text x="912.5" y="251.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">_id, user, tokenHash, expiresAt</text>
+</svg>

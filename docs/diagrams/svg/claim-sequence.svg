@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="700" viewBox="0 0 1120 700">
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#178e84"/></marker></defs>
+<rect x="0" y="0" width="1120" height="700" fill="#f7faf9"/>
+<text x="40" y="41" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#123e43">Claim Sequence</text>
+<path d="M240.0 93.5 L327.0 93.5" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="283.5" y="85.5" text-anchor="middle" font-size="10" font-family="Arial" fill="#477d70">Submits proof</text>
+<path d="M537.0 93.5 L627.0 93.5" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="582.0" y="85.5" text-anchor="middle" font-size="10" font-family="Arial" fill="#477d70">Persists</text>
+<path d="M537.0 93.5 L895.0 93.5" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="716.0" y="85.5" text-anchor="middle" font-size="10" font-family="Arial" fill="#477d70">Private event</text>
+<path d="M310.0 235.5 L362.0 309.5" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<path d="M592.0 309.5 L771.0 398.5" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<path d="M916.0 436.0 L916.0 460.0" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<path d="M771.0 497.5 L612.0 589.5" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<rect x="70" y="60" width="170" height="67" rx="11" fill="#deecfc" stroke="#b7d5cf" stroke-width="2"/>
+<text x="155.0" y="83.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Claimant</text>
+<text x="155.0" y="102.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">Browser B</text>
+<rect x="327" y="60" width="210" height="67" rx="11" fill="#dff5ed" stroke="#b7d5cf" stroke-width="2"/>
+<text x="432.0" y="83.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Express Service</text>
+<text x="432.0" y="102.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">REST + Socket.IO</text>
+<rect x="627" y="60" width="185" height="67" rx="11" fill="#fff1dc" stroke="#b7d5cf" stroke-width="2"/>
+<text x="719.5" y="83.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">MongoDB</text>
+<text x="719.5" y="102.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">Claims / Items</text>
+<rect x="895" y="60" width="170" height="67" rx="11" fill="#deecfc" stroke="#b7d5cf" stroke-width="2"/>
+<text x="980.0" y="83.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Reporter</text>
+<text x="980.0" y="102.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">Browser A</text>
+<rect x="70" y="198" width="240" height="75" rx="11" fill="#e6f4ef" stroke="#b7d5cf" stroke-width="2"/>
+<text x="190.0" y="225.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">1. POST /items/:id/claims</text>
+<text x="190.0" y="244.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">Proof of ownership</text>
+<rect x="362" y="272" width="230" height="75" rx="11" fill="#e6f4ef" stroke="#b7d5cf" stroke-width="2"/>
+<text x="477.0" y="299.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">2. Save pending claim;</text>
+<text x="477.0" y="318.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">Item → claim_pending</text>
+<rect x="771" y="361" width="290" height="75" rx="11" fill="#e6f4ef" stroke="#b7d5cf" stroke-width="2"/>
+<text x="916.0" y="388.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">3. claim:new private alert</text>
+<text x="916.0" y="407.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">to owner &amp; moderators</text>
+<rect x="771" y="460" width="290" height="75" rx="11" fill="#e6f4ef" stroke="#b7d5cf" stroke-width="2"/>
+<text x="916.0" y="487.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">4. Owner approves/rejects</text>
+<text x="916.0" y="506.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">PATCH /claims/:id</text>
+<rect x="362" y="552" width="250" height="75" rx="11" fill="#e6f4ef" stroke="#b7d5cf" stroke-width="2"/>
+<text x="487.0" y="579.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">5. Mark claim and item;</text>
+<text x="487.0" y="598.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">notify claimant live</text>
+</svg>

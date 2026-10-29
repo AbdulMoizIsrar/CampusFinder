@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="700" viewBox="0 0 1120 700">
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#178e84"/></marker></defs>
+<rect x="0" y="0" width="1120" height="700" fill="#f7faf9"/>
+<text x="40" y="41" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#123e43">Deployment View</text>
+<path d="M325.0 239.5 L422.0 236.0" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="373.5" y="229.8" text-anchor="middle" font-size="10" font-family="Arial" fill="#477d70">HTTP + Socket.IO</text>
+<path d="M742.0 236.0 L820.0 239.5" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="781.0" y="229.8" text-anchor="middle" font-size="10" font-family="Arial" fill="#477d70">Mongoose driver</text>
+<path d="M582.0 311.0 L560.0 405.0" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="571.0" y="350.0" text-anchor="middle" font-size="10" font-family="Arial" fill="#477d70">Boundary</text>
+<path d="M560.0 505.0 L560.0 550.0" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="560.0" y="519.5" text-anchor="middle" font-size="10" font-family="Arial" fill="#477d70">Availability</text>
+<rect x="65" y="182" width="260" height="115" rx="11" fill="#deecfc" stroke="#b7d5cf" stroke-width="2"/>
+<text x="195.0" y="229.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Campus Browser</text>
+<text x="195.0" y="248.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">Laptop / Mobile browser</text>
+<rect x="422" y="161" width="320" height="150" rx="11" fill="#dff5ed" stroke="#b7d5cf" stroke-width="2"/>
+<text x="582.0" y="216.0" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Node.js 22 Runtime</text>
+<text x="582.0" y="235.0" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">Express 5 · GraphQL · Socket.IO</text>
+<text x="582.0" y="254.0" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">Single-process deployment</text>
+<rect x="820" y="182" width="245" height="115" rx="11" fill="#fff0df" stroke="#b7d5cf" stroke-width="2"/>
+<text x="942.5" y="229.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">MongoDB 7</text>
+<text x="942.5" y="248.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">Local service / Docker container</text>
+<rect x="330" y="405" width="460" height="100" rx="11" fill="#fae9e3" stroke="#b7d5cf" stroke-width="2"/>
+<text x="560.0" y="435.0" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Trust boundary</text>
+<text x="560.0" y="454.0" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">Browser network ⇆ Node process</text>
+<text x="560.0" y="473.0" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">TLS termination required in production</text>
+<rect x="330" y="550" width="460" height="85" rx="11" fill="#faf1e0" stroke="#b7d5cf" stroke-width="2"/>
+<text x="560.0" y="572.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Single points of failure</text>
+<text x="560.0" y="591.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">Node.js process + database</text>
+<text x="560.0" y="610.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">Local lab demo only</text>
+</svg>

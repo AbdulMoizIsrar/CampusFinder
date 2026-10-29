@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="700" viewBox="0 0 1120 700">
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#178e84"/></marker></defs>
+<rect x="0" y="0" width="1120" height="700" fill="#f7faf9"/>
+<text x="40" y="41" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#123e43">Layered Architecture</text>
+<path d="M547.5 135.0 L547.5 180.0" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="547.5" y="149.5" text-anchor="middle" font-size="10" font-family="Arial" fill="#477d70">HTTP / WS</text>
+<path d="M547.5 250.0 L547.5 295.0" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<path d="M547.5 365.0 L547.5 410.0" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<path d="M547.5 480.0 L547.5 525.0" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<path d="M670.0 560.0 L790.0 559.5" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<path d="M330.0 339.0 L425.0 215.0" stroke="#178e84" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="377.5" y="269.0" text-anchor="middle" font-size="10" font-family="Arial" fill="#477d70">guard</text>
+<rect x="425" y="70" width="245" height="65" rx="11" fill="#deecfc" stroke="#b7d5cf" stroke-width="2"/>
+<text x="547.5" y="92.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Browser UI</text>
+<text x="547.5" y="111.5" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">HTML · CSS · JS</text>
+<rect x="425" y="180" width="245" height="70" rx="11" fill="#e6f4ef" stroke="#b7d5cf" stroke-width="2"/>
+<text x="547.5" y="205.0" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Routes</text>
+<text x="547.5" y="224.0" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">REST · GraphQL · Socket.IO</text>
+<rect x="425" y="295" width="245" height="70" rx="11" fill="#e6f4ef" stroke="#b7d5cf" stroke-width="2"/>
+<text x="547.5" y="320.0" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Controllers</text>
+<text x="547.5" y="339.0" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">HTTP response / orchestration</text>
+<rect x="425" y="410" width="245" height="70" rx="11" fill="#e6f4ef" stroke="#b7d5cf" stroke-width="2"/>
+<text x="547.5" y="435.0" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Services</text>
+<text x="547.5" y="454.0" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">Claims · Matching · Notifications</text>
+<rect x="425" y="525" width="245" height="70" rx="11" fill="#e6f4ef" stroke="#b7d5cf" stroke-width="2"/>
+<text x="547.5" y="550.0" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Models</text>
+<text x="547.5" y="569.0" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">Mongoose document schemas</text>
+<rect x="790" y="527" width="210" height="65" rx="11" fill="#fff4df" stroke="#b7d5cf" stroke-width="2"/>
+<text x="895.0" y="559.5" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">MongoDB 7</text>
+<rect x="85" y="284" width="245" height="110" rx="11" fill="#f9e8e8" stroke="#b7d5cf" stroke-width="2"/>
+<text x="207.5" y="319.0" text-anchor="middle" font-size="13" font-weight="700" fill="#123e43" font-family="Arial,sans-serif">Cross-cutting middleware</text>
+<text x="207.5" y="338.0" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">JWT · RBAC · Validation</text>
+<text x="207.5" y="357.0" text-anchor="middle" font-size="13" font-weight="400" fill="#123e43" font-family="Arial,sans-serif">CSRF · Rate Limits · CSP</text>
+</svg>

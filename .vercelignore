@@ -1,0 +1,7 @@
+.env
+.env.*
+node_modules/
+public/uploads/
+*.patch
+*.zip
+*.backup

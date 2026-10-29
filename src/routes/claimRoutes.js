@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import * as ctrl from '../controllers/claimController.js';
+import { requireAuth } from '../middleware/auth.js';
+import { mongoId, validated } from '../middleware/validate.js';
+import { body } from 'express-validator';
+const router = Router();
+router.use(requireAuth);
+router.get('/mine', ctrl.mine);
+router.patch('/:id', mongoId(), body('status').isIn(['approved', 'rejected']), validated, ctrl.review);
+export default router;

@@ -1,0 +1,52 @@
+@host = http://localhost:3000
+@accessToken = REPLACE_WITH_ACCESS_TOKEN
+@itemId = REPLACE_WITH_24_CHARACTER_ITEM_ID
+@claimId = REPLACE_WITH_24_CHARACTER_CLAIM_ID
+
+### Health
+GET {{host}}/api/v1/health
+
+### Get CSRF cookie / token (use for refresh/logout)
+GET {{host}}/api/v1/auth/csrf
+
+### Log in (copy accessToken; client saves HttpOnly refresh cookie)
+POST {{host}}/api/v1/auth/login
+Content-Type: application/json
+
+{"email":"sara@campus.edu","password":"Demo12345!"}
+
+### List reported items
+GET {{host}}/api/v1/items?category=Electronics&sort=newest&page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### Create report
+POST {{host}}/api/v1/items
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{"title":"Lost library headphones","description":"Black wireless headphones with a small red sticker on the band","category":"Electronics","location":"Main Library","date":"2026-10-27","type":"lost"}
+
+### See matches (reporter or moderator only)
+GET {{host}}/api/v1/items/{{itemId}}/matches
+Authorization: Bearer {{accessToken}}
+
+### Claim item (cannot claim own report)
+POST {{host}}/api/v1/items/{{itemId}}/claims
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{"proofText":"The left side has a scratch near the hinge and a unique marking on the underside."}
+
+### Approve (reporter/moderator)
+PATCH {{host}}/api/v1/claims/{{claimId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{"status":"approved"}
+
+### Moderator GraphQL dashboard
+POST {{host}}/graphql
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{"query":"query { itemStats { total byStatus { label count } byCategory { label count } } recentClaims(limit: 5) { id status } }"}
